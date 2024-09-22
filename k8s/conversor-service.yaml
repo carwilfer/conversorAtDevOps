@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: conversor-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: conversor-service
+  template:
+    metadata:
+      labels:
+        app: conversor-service
+    spec:
+      containers:
+        - name: conversor-service
+          image: carwilfer/conversor-service:latest
+          ports:
+            - containerPort: 8093
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: conversor-service
+spec:
+  type: NodePort
+  ports:
+    - port: 8093
+      targetPort: 8093
+  selector:
+    app: conversor-service
